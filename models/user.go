@@ -16,12 +16,10 @@ type User struct {
 	Dead      uint
 }
 
-// 获取 id
 func (this *User) GetId() {
 	this.Id = bson.NewObjectId()
 }
 
-// 创建新用户
 func (this *User) Insert() (bool, interface{}) {
 	err := DB.C("user").Insert(this)
 	if err != nil {
@@ -30,11 +28,17 @@ func (this *User) Insert() (bool, interface{}) {
 	return true, this.Id
 }
 
-// 根据 ObjectId 获取用户信息
-func (this *User) Find(value string) bool {
+func (this *User) Find(value string) (bool, interface{}) {
+	if !bson.IsObjectIdHex(value) {
+		return false, "id格式错误"
+	}
 	err := DB.C("user").Find(bson.M{"_id": bson.ObjectIdHex(value)}).One(&this)
 	if err != nil {
-		return false
+		return false, "用户不存在"
 	}
-	return true
+	return true, nil
+}
+
+func (this *User) Save() {
+	DB.C("user").Update(bson.M{"_id": this.Id}, this)
 }

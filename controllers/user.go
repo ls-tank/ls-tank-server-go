@@ -36,17 +36,29 @@ func (this *UserController) Add() {
 	this.ServeJSON()
 }
 
+func get(id string) (bool, interface{}) {
+	user := &models.User{}
+	if _ok, _data := user.Find(id); !_ok {
+		return false, _data
+	}
+	return true, user
+}
+
 func (this *UserController) Get() {
-	fmt.Println("get...")
+	ok, data := get(this.GetString("id"))
 
 	this.Data["json"] = map[string]interface{}{
-		"ok":   "ok",
-		"data": "get",
+		"ok":   ok,
+		"data": data,
 	}
 	this.ServeJSON()
 }
 
-// todo
-// func isExist(name string) {
-//
-// }
+func (this *UserController) Update() {
+	// todo
+	this.Data["json"] = map[string]interface{}{
+		"ok":   "ok",
+		"data": "data",
+	}
+	this.ServeJSON()
+}
