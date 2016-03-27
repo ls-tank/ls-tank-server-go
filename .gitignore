@@ -2,6 +2,7 @@
 *.o
 *.a
 *.so
+ls-tank-server-go
 
 # Folders
 _obj

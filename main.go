@@ -1,11 +1,10 @@
 package main
 
 import (
-	_ "ls-tank-server-go/routers"
 	"github.com/astaxie/beego"
+	_ "ls-tank-server-go/routers"
 )
 
 func main() {
 	beego.Run()
 }
-

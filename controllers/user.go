@@ -3,10 +3,10 @@ package controllers
 import (
 	"crypto/md5"
 	"encoding/hex"
-	"fmt"
 	"github.com/astaxie/beego"
 	"gopkg.in/mgo.v2/bson"
 	"ls-tank-server-go/models"
+	"strconv"
 )
 
 type UserController struct {
@@ -36,6 +36,23 @@ func (this *UserController) Add() {
 	this.ServeJSON()
 }
 
+func (this *UserController) Login() {
+	user := &models.User{}
+	name := this.GetString("name")
+	password := encrypt(this.GetString("password"))
+
+	ok, data := user.Authenticate(name, password)
+	if ok {
+		this.SetSession("uid", user.Id.Hex())
+	}
+
+	this.Data["json"] = map[string]interface{}{
+		"ok":   ok,
+		"data": data,
+	}
+	this.ServeJSON()
+}
+
 func get(id string) (bool, interface{}) {
 	user := &models.User{}
 	if _ok, _data := user.Find(id); !_ok {
@@ -55,10 +72,19 @@ func (this *UserController) Get() {
 }
 
 func (this *UserController) Update() {
-	// todo
+	user := &models.User{}
+	user.Find(this.GetSession("uid").(string))
+
+	_data := make(map[string]interface{})
+	for key, value := range this.Input() {
+		_data[key], _ = strconv.Atoi(value[0])
+	}
+
+	ok, data := user.Update(_data)
+
 	this.Data["json"] = map[string]interface{}{
-		"ok":   "ok",
-		"data": "data",
+		"ok":   ok,
+		"data": data,
 	}
 	this.ServeJSON()
 }
