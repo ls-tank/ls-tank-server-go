@@ -3,7 +3,6 @@ package models
 import (
 	"github.com/astaxie/beego"
 	"gopkg.in/mgo.v2"
-	// "gopkg.in/mgo.v2/bson"
 )
 
 var DB *mgo.Database
