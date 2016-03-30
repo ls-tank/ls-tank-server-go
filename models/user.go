@@ -6,8 +6,9 @@ import (
 
 type User struct {
 	Id        bson.ObjectId `_id`
-	Name      string
+	Username  string
 	Password  string
+	Nickname  string
 	Diamond   uint
 	TankHead  uint
 	TankBody  uint
@@ -25,7 +26,7 @@ func (this *User) Insert() (bool, interface{}) {
 	if err != nil {
 		return false, err
 	}
-	return true, this.Id
+	return true, this
 }
 
 func (this *User) Find(value string) (bool, interface{}) {
@@ -40,7 +41,7 @@ func (this *User) Find(value string) (bool, interface{}) {
 }
 
 func (this *User) Authenticate(name string, password string) (bool, interface{}) {
-	err := DB.C("user").Find(bson.M{"name": name, "password": password}).One(&this)
+	err := DB.C("user").Find(bson.M{"username": name, "password": password}).One(&this)
 	if err != nil {
 		return false, "账号或密码错误"
 	}

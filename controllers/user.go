@@ -24,8 +24,9 @@ func (this *UserController) Add() {
 	ok, data := func() (bool, interface{}) {
 		user := &models.User{}
 		user.Id = bson.NewObjectId()
-		user.Name = this.GetString("name")
+		user.Username = this.GetString("username")
 		user.Password = encrypt(this.GetString("password"))
+		user.Nickname = this.GetString("nickname")
 		return user.Insert()
 	}()
 
@@ -38,10 +39,10 @@ func (this *UserController) Add() {
 
 func (this *UserController) Login() {
 	user := &models.User{}
-	name := this.GetString("name")
+	username := this.GetString("username")
 	password := encrypt(this.GetString("password"))
 
-	ok, data := user.Authenticate(name, password)
+	ok, data := user.Authenticate(username, password)
 	if ok {
 		this.SetSession("uid", user.Id.Hex())
 	}
