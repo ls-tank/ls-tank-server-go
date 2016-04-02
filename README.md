@@ -32,6 +32,23 @@ GET /api/user/{id}
 PATCH /api/user
 ```
 
+## Nginx
+```
+server {
+  listen 80;
+  server_name dev.tank-controller.com;
+
+  location / {
+    proxy_pass http://127.0.0.1:7456;
+  }
+
+  location /api {
+    rewrite ^.+api/?(.*)$ /$1 break;
+    proxy_pass http://127.0.01:8123;
+  }
+}
+```
+
 ## License
 MIT
 
