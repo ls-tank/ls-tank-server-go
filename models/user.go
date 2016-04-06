@@ -9,12 +9,12 @@ type User struct {
 	Username  string
 	Password  string
 	Nickname  string
-	Diamond   uint
-	TankHead  uint
-	TankBody  uint
-	TankWheel uint
-	Kill      uint
-	Dead      uint
+	Diamond   int
+	TankHead  int
+	TankBody  int
+	TankWheel int
+	Kill      int
+	Dead      int
 }
 
 func (this *User) GetId() {

@@ -10,4 +10,5 @@ func init() {
 	beego.Router("/register", &controllers.UserController{}, "post:Add")
 	beego.Router("/user", &controllers.UserController{}, "get:Get")
 	beego.Router("/user", &controllers.UserController{}, "patch:Update")
+	beego.Router("/user/coins", &controllers.UserController{}, "post:AddCoins")
 }

@@ -3,6 +3,7 @@ package controllers
 import (
 	"crypto/md5"
 	"encoding/hex"
+	// "fmt"
 	"github.com/astaxie/beego"
 	"gopkg.in/mgo.v2/bson"
 	"ls-tank-server-go/models"
@@ -88,4 +89,21 @@ func (this *UserController) Update() {
 		"data": data,
 	}
 	this.ServeJSON()
+}
+
+func (this *UserController) AddCoins() {
+	user := &models.User{}
+	uid := this.GetString("uid")
+	coins, ok := this.GetInt("coins")
+
+	user.Find(uid)
+	user.Diamond += coins
+	user.Save()
+
+	this.Data["json"] = map[string]interface{}{
+		"ok":   ok,
+		"data": user,
+	}
+	this.ServeJSON()
+
 }
