@@ -56,6 +56,16 @@ func (this *User) Update(data map[string]interface{}) (bool, interface{}) {
 	return true, "更新成功"
 }
 
+func (this *User) IncData(key string, step int) (bool, interface{}) {
+	_data := map[string]int{}
+	_data[key] = step
+	err := DB.C("user").Update(bson.M{"_id": this.Id}, bson.M{"$inc": _data})
+	if err != nil {
+		return false, "更新失败"
+	}
+	return true, "更新成功"
+}
+
 func (this *User) Save() {
 	DB.C("user").Update(bson.M{"_id": this.Id}, this)
 }

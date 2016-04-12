@@ -105,5 +105,4 @@ func (this *UserController) AddCoins() {
 		"data": user,
 	}
 	this.ServeJSON()
-
 }
